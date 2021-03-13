@@ -1,6 +1,59 @@
 const container = document.querySelector('.game')
 let selections = []
 let answers = []
+let corrects = []
+
+function createCards () {
+  const card = document.createElement('div')
+  const cardBG = document.createElement('img')
+  cardBG.setAttribute('src', './images/cards-bg.jpg')
+  cardBG.classList.add('img-bg')
+  card.appendChild(cardBG)
+  container.appendChild(card)
+  return card
+}
+
+function selectBG (cardV, card) {
+  switch(cardV) {
+    case 0:
+      card.children[0].setAttribute('src', './images/Sandy-card.png')
+      break
+      case 1:
+        card.children[0].setAttribute('src', './images/Colette-card.png')
+      break
+      case 2:
+        card.children[0].setAttribute('src', './images/Jesse-card.png')
+        break
+      default:
+        card.children[0].setAttribute('src', './images/cards-bg.jpg')
+  }
+}
+
+function selectCard(cardV, card) {
+  if(!corrects.includes(cardV)) {
+  selectBG(cardV, card)
+  answers.push(cardV)
+  answers.push(card)
+  console.log(cardV)
+    if (answers.length === 4) {
+      if (answers[0] === answers[2]) {
+        console.log('Conseguiste una pareja!!!')
+        console.log(selections)
+        corrects.push(answers[0])
+        corrects.push(answers[2])
+        answers = []
+      } else {
+        console.log(answers[2])
+        console.log('Fallaste')
+        setTimeout(() => {
+          selectBG(null, answers[1])
+          selectBG(null, answers[3])
+          answers = []
+        }, 1000)
+      }
+    }
+  }
+}
 
 while(selections.length < 6) {
   const numberRandom = Math.floor(Math.random() * (3 + 0))
@@ -23,54 +76,7 @@ while(selections.length < 6) {
 }
 
 console.log(selections)
-
-function createCards () {
-  const card = document.createElement('div')
-  const cardBG = document.createElement('img')
-  cardBG.setAttribute('src', './images/cards-bg.jpg')
-  cardBG.classList.add('img-bg')
-  card.appendChild(cardBG)
-  container.appendChild(card)
-  return card
-}
-
-function selectBG (cardV, card) {
-  switch(cardV) {
-    case 0:
-      card.children[0].setAttribute('src', './images/Sandy-card.png')
-      break
-    case 1:
-      card.children[0].setAttribute('src', './images/Colette-card.png')
-      break
-    case 2:
-      card.children[0].setAttribute('src', './images/Jesse-card.png')
-      break
-    default:
-      card.children[0].setAttribute('src', './images/cards-bg.jpg')
-      break;
-  }
-}
-
-selections.map(function async (cardV) {
+selections.map(function(cardV) {
   const card = createCards();
-  card.addEventListener('click', function() {
-    answers.push(cardV)
-    answers.push(card)
-    console.log(cardV)
-    selectBG(cardV, card)
-    if (answers.length === 4) {
-      if (answers[0] === answers[2]) {
-        console.log('Conseguiste una pareja!!!')
-        answers = []
-      } else {
-        console.log(answers[2])
-        console.log('Fallaste')
-        setTimeout(() => {
-          selectBG(4, answers[1])
-          selectBG(4, answers[3])
-          answers = []
-        }, 1000)
-      }
-    }
-  })
+  card.addEventListener('click', () => selectCard(cardV, card))
 })
