@@ -13,7 +13,7 @@ div {
   flex-wrap: wrap;
 }
 
-div div {
+div button {
   border: 1px solid #FFF;
   width: 50%;
   height: 33.3%;

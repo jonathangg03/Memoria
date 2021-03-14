@@ -4,7 +4,7 @@ let answers = []
 let corrects = []
 
 function createCards () {
-  const card = document.createElement('div')
+  const card = document.createElement('button')
   const cardBG = document.createElement('img')
   cardBG.setAttribute('src', './images/cards-bg.jpg')
   cardBG.classList.add('img-bg')
@@ -34,6 +34,8 @@ function selectCard(cardV, card) {
   selectBG(cardV, card)
   answers.push(cardV)
   answers.push(card)
+  console.log(card)
+  card.setAttribute('disabled', true)
   console.log(cardV)
     if (answers.length === 4) {
       if (answers[0] === answers[2]) {
@@ -45,6 +47,8 @@ function selectCard(cardV, card) {
       } else {
         console.log(answers[2])
         console.log('Fallaste')
+        answers[1].removeAttribute('disabled')
+        answers[3].removeAttribute('disabled')
         setTimeout(() => {
           selectBG(null, answers[1])
           selectBG(null, answers[3])
