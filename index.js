@@ -16,13 +16,13 @@ function createCards () {
 function selectBG (cardV, card) {
   switch(cardV) {
     case 0:
-      card.children[0].setAttribute('src', './images/Sandy-card.png')
+      card.children[0].setAttribute('src', './images/card0.jpg')
       break
       case 1:
-        card.children[0].setAttribute('src', './images/Colette-card.png')
+        card.children[0].setAttribute('src', './images/card1.jpg')
       break
       case 2:
-        card.children[0].setAttribute('src', './images/Jesse-card.png')
+        card.children[0].setAttribute('src', './images/card2.jpg')
         break
       default:
         card.children[0].setAttribute('src', './images/cards-bg.jpg')
@@ -30,31 +30,30 @@ function selectBG (cardV, card) {
 }
 
 function selectCard(cardV, card) {
-  if(!corrects.includes(cardV)) {
   selectBG(cardV, card)
   answers.push(cardV)
   answers.push(card)
   console.log(card)
   card.setAttribute('disabled', true)
   console.log(cardV)
-    if (answers.length === 4) {
-      if (answers[0] === answers[2]) {
-        console.log('Conseguiste una pareja!!!')
-        console.log(selections)
-        corrects.push(answers[0])
-        corrects.push(answers[2])
-        answers = []
-      } else {
-        console.log(answers[2])
-        console.log('Fallaste')
-        answers[1].removeAttribute('disabled')
-        answers[3].removeAttribute('disabled')
-        setTimeout(() => {
-          selectBG(null, answers[1])
-          selectBG(null, answers[3])
-          answers = []
-        }, 1000)
+  if (answers.length === 4) {
+    if (answers[0] === answers[2]) {
+      corrects.push(answers[1])
+      corrects.push(answers[3])
+      answers = []
+      if(corrects.length === 6) {
+        document.querySelector('.final-message').classList.add('show')
       }
+    } else {
+      console.log(answers[2])
+      console.log('Fallaste')
+      answers[1].removeAttribute('disabled')
+      answers[3].removeAttribute('disabled')
+      setTimeout(() => {
+        selectBG(null, answers[1])
+        selectBG(null, answers[3])
+        answers = []
+      }, 1000)
     }
   }
 }
